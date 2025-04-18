@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator</title>
+    
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-8137880044551313"
+    crossorigin="anonymous"></script>
+    
+    <style>
+        /* Previous CSS remains unchanged */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Ad container styling */
+        .ad-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Rest of original CSS */
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* ... rest of the original CSS ... */
+    </style>
+</head>
+<body>
+    <!-- Google AdSense Placement -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-8137880044551313"
+            data-ad-slot="9898856533"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Calculator Container -->
+    <div class="container">
+        <h1>💰 EMI Calculator</h1>
+        <!-- Calculator content remains same -->
+        <div class="input-group">
+            <label for="principal">Loan Amount (₹)</label>
+            <input type="number" id="principal" min="1000" step="1000" value="100000" required>
+        </div>
+
+        <div class="input-group">
+            <label>Interest Rate (% per annum)</label>
+            <div class="range-container">
+                <input type="range" id="interest" min="1" max="20" step="0.1" value="10">
+                <span class="rate-value" id="rateValue">10%</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="time">Loan Tenure (Years)</label>
+            <input type="number" id="time" min="1" max="30" step="1" value="1" required>
+        </div>
+
+        <div class="results">
+            <h2>Payment Breakdown</h2>
+            <table>
+                <tr>
+                    <td><span class="emoji">📅</span>Monthly EMI</td>
+                    <td id="emi">₹0</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">📈</span>Total Interest</td>
+                    <td id="totalInterest">₹0</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">🏦</span>Total Payment</td>
+                    <td id="totalPayment">₹0</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Original JavaScript -->
+    <script>
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const interestRate = parseFloat(document.getElementById('interest').value);
+            const years = parseFloat(document.getElementById('time').value);
+
+            const months = years * 12;
+            const monthlyRate = (interestRate / 100) / 12;
+
+            const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                        (Math.pow(1 + monthlyRate, months) - 1);
+
+            const totalPayment = emi * months;
+            const totalInterest = totalPayment - principal;
+
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            document.getElementById('emi').textContent = formatter.format(emi);
+            document.getElementById('totalInterest').textContent = formatter.format(totalInterest);
+            document.getElementById('totalPayment').textContent = formatter.format(totalPayment);
+        }
+
+        document.getElementById('interest').addEventListener('input', function() {
+            document.getElementById('rateValue').textContent = `${this.value}%`;
+        });
+
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateEMI);
+        });
+
+        calculateEMI();
+    </script>
+</body>
+</html>
